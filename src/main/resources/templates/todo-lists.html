@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo Lists</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+<div th:insert="header::menu"></div>
+<h2 th:text="|All ToDo Lists of ${user.getFirstName()} ${user.getLastName()}|"></h2>
+<a class="btn btn-info col-2" th:href="@{/todos/create/users/{owner_id}(owner_id=${user_id})}">Create New ToDo List</a>
+    <table class="table">
+        <thead class="thead-light">
+    <tr>
+        <th>No.</th>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Created At</th>
+        <th>Owner</th>
+        <th colspan="2">Operations</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="todo : ${todos}">
+        <td th:text="${todos.indexOf(todo)+1}"></td>
+        <td th:text="${todo.getId()}"></td>
+        <td><a class="nav-link"  th:href="@{/todos/{todoId}/tasks(todoId=${todo.getId()})}" th:text="${todo.getTitle()}"></a></td>
+        <td th:text="${todo.getCreatedAt()}"></td>
+        <td th:text="|${todo.getOwner().getFirstName()} ${todo.getOwner().getLastName()}|"></td>
+        <td>
+            <a class="nav-link" th:href="@{/todos/{todo_id}/update/users/{owner_id}(todo_id=${todo.getId()}, owner_id=${todo.getOwner().getId()})}">Edit</a>
+        </td>
+        <td>
+            <a class="nav-link" th:href="@{/todos/{todo_id}/delete/users/{owner_id}(todo_id=${todo.getId()}, owner_id=${user_id})}">Remove</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

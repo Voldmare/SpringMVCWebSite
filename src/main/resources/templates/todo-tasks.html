@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Tasks of ToDo List</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2">
+    <div th:insert="header::menu"></div>
+    <h2 th:text="|All Tasks From ${toDo.getTitle()}|"></h2>
+    <a class="btn btn-info col-2" th:href="@{/tasks/create/todos/{todo_id}(todo_id=${toDo.getId()})}">Create Task</a>
+
+    <h3>Tasks: </h3>
+
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th>No.</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Priority</th>
+            <th>State</th>
+            <th colspan="2">Operations</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${tasks.indexOf(task)+1}"></td>
+            <td th:text="${task.getId()}"></td>
+            <td th:text="${task.getName()}"></td>
+            <td th:text="${task.getPriority()}"></td>
+            <td th:text="${task.getState().getName()}"></td>
+            <td><a class="nav-link"
+                   th:href="@{/tasks/{task_id}/update/todos/{todo_id}(task_id=${task.getId()}, todo_id=${toDo.getId()})}">Edit</a>
+            </td>
+            <td><a class="nav-link"
+                   th:href="@{/tasks/{task_id}/delete/todos/{todo_id}(task_id=${task.getId()}, todo_id=${toDo.getId()})}">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Collaborators: </h3>
+    <form th:action="@{/todos/{id}/add/(id=${id})}" th:object="${newCollaborator}" method="get">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Collaborators:</label>
+            <select size="1" th:field="*{id}">
+                <option th:each="collaborator : ${potentialCollaborators}"
+                        th:name="collabor"
+                        th:value="${collaborator.getId()}"
+                        th:text="|${collaborator.getFirstName()} ${collaborator.getLastName()}|">
+                </option>
+            </select>
+        </div>
+        <p><input type="submit" value="Add" class="btn btn-info col-2"/></p>
+    </form>
+
+
+    <table class="table">
+        <thead class="thead-light">
+         <tr>
+            <th>No.</th>
+            <th>Collaborator_id</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="collaborator : ${collaborators}">
+            <td th:text="${collaborators.indexOf(collaborator)}+1"></td>
+            <td>
+                <a class="nav-link" th:href="@{/todos/all/users/{user_id}(user_id=${collaborator.getId()})}" th:text="|${collaborator.getFirstName()} ${collaborator.getLastName()}|"></a>
+            </td>
+            <td>
+                <a class="nav-link" th:href="@{/todos/{todo_id}/remove/{collaborator_id}(todo_id=${toDo.getId()}, collaborator_id=${collaborator.getId()})}">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+
+
+    <a th:href="@{/todos/all/users/{user_id}(user_id=${toDo.getOwner().getId()})}"> Go to ToDo Lists</a>
+
+</div>
+</body>
+</html>

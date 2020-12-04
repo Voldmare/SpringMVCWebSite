@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<div class="container">
+    <div th:insert="header::menu"></div>
+    <h2>Update Existing User</h2>
+    <form th:action="@{/users/update/{userId}(userId=${user.id})}" th:object="${user}" method="post">
+        <div class="form-group row">
+            <label th:for="*{id}" class="col-sm-2 col-form-label">ID:</label>
+            <input type="text" th:id="*{id}" th:field="*{id}" disabled/>
+        </div>
+        <div class="form-group row">
+            <label th:for="*{firstName}" class="col-sm-2 col-form-label">First name:</label>
+            <input type="text" th:id="*{firstName}" th:field="*{firstName}"/>
+        </div>
+        <div class="form-group row">
+            <label th:for="*{lastName}" class="col-sm-2 col-form-label">Last name:</label>
+            <input type="text" th:id="*{lastName}" th:field="*{lastName}"/>
+        </div>
+        <div class="form-group row">
+            <label th:for="*{email}" class="col-sm-2 col-form-label">E-mail:</label>
+            <input type="email" th:id="*{email}" th:field="*{email}"/>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Old Password:</label>
+            <input type="password" th:value="*{password}" disabled/>
+        </div>
+        <div class="form-group row">
+            <label th:for="*{password}" class="col-sm-2 col-form-label">New Password:</label>
+            <input type="password" th:id="*{password}" th:field="*{password}"/>
+        </div>
+        <div class="form-group row">
+            <label th:for="*{role}" class="col-sm-2 col-form-label">Role:</label>
+            <select size="1" th:id="*{role}" th:field="*{role}">
+                <option th:each="role : ${roles}"
+                        th:value="${role.getId()}"
+                        th:text="${role.getName()}"
+                        th:selected="${role eq user.role}">
+                </option>
+            </select>
+        </div>
+        <p>
+            <input type="submit" value="Update" class="btn btn-info col-2"/>
+            <input type="reset" value="Clear" class="btn btn-light col-2"/>
+        </p>
+    </form>
+</div>
+</body>
+
+</html>

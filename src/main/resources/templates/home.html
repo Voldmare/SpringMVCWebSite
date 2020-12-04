@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+<div th:insert="header::menu"></div>
+    <h2>List of Users</h2>
+    <a class="btn btn-info col-2" th:href="@{/users/create}">Create new User</a>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>No.</th>
+                <th>Id</th>
+                <th>Full name</th>
+                <th>E-mail</th>
+                <th colspan="2">Operations</th>
+            </tr>
+        </thead>
+        <tr th:each="user: ${users}">
+            <td th:text="${users.indexOf(user)+1}"></td>
+            <td th:text="${user.getId()}"></td>
+            <td><a th:href="@{/todos/all/users/{user_id}(user_id=${user.getId()})}" th:text="|${user.getFirstName()} ${user.getLastName()}|"></a></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td><a th:href="@{/users/update/{userId}(userId=${user.id})}" th:text="Edit"></a></td>
+            <td><a th:href="@{/users/delete/{userId}(userId=${user.id})}" th:text="Remove"></a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
