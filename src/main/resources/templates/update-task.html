@@ -33,12 +33,12 @@
             </select>
         </div>
         <div class="form-group row">
-            <label th:for="*{state}" class="col-sm-2 col-form-label">Status:</label>
-            <select size="1" th:id="*{state}" th:field="*{state}">
+            <label th:for="*{stateId}" class="col-sm-2 col-form-label">Status:</label>
+            <select size="1" th:id="*{stateId}" th:field="*{stateId}">
                 <option th:each="state : ${states}"
                         th:value="${state.getId()}"
                         th:text="${state.getName()}"
-                        th:selected="${state eq task.state}"></option>
+                        th:selected="${state.id eq task.stateId}"></option>
             </select>
         </div>
         <p>

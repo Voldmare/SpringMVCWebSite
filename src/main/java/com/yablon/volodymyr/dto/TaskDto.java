@@ -68,4 +68,15 @@ public class TaskDto {
     public void setStateId(long stateId) {
         this.stateId = stateId;
     }
+
+    @Override
+    public String toString() {
+        return "TaskDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", priority='" + priority + '\'' +
+                ", todoId=" + todoId +
+                ", stateId=" + stateId +
+                '}';
+    }
 }
